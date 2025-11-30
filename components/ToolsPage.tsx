@@ -1,15 +1,24 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { toolsData } from '../data/tools';
 import { Star, ExternalLink, Filter, X, Globe, CheckCircle2, ThumbsUp, ThumbsDown, Search, ArrowUpDown, ChevronDown, SlidersHorizontal, LayoutGrid, List as ListIcon } from 'lucide-react';
 import { AiTool } from '../types';
 
-export const ToolsPage: React.FC = () => {
+interface ToolsPageProps {
+  initialCategory?: string;
+}
+
+export const ToolsPage: React.FC<ToolsPageProps> = ({ initialCategory = 'All' }) => {
   const [selectedTool, setSelectedTool] = useState<AiTool | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
   const [selectedPricing, setSelectedPricing] = useState<string>('All');
   const [sortBy, setSortBy] = useState<string>('Newest');
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  // Sync prop with state if it changes (e.g., re-navigation)
+  useEffect(() => {
+    setSelectedCategory(initialCategory);
+  }, [initialCategory]);
 
   // Extract unique categories and pricing for filter lists
   const categories = useMemo(() => {

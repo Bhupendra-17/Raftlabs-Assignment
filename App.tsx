@@ -6,20 +6,27 @@ import { Page } from './types';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
+  const [initialCategory, setInitialCategory] = useState<string>('All');
+
+  const handleNavigate = (page: Page, category: string = 'All') => {
+    setInitialCategory(category);
+    setCurrentPage(page);
+    window.scrollTo(0, 0);
+  };
 
   const renderContent = () => {
     switch (currentPage) {
       case 'home':
-        return <HomePage onNavigate={setCurrentPage} />;
+        return <HomePage onNavigate={handleNavigate} />;
       case 'tools':
-        return <ToolsPage />;
+        return <ToolsPage initialCategory={initialCategory} />;
       default:
-        return <HomePage onNavigate={setCurrentPage} />;
+        return <HomePage onNavigate={handleNavigate} />;
     }
   };
 
   return (
-    <Layout currentPage={currentPage} onNavigate={setCurrentPage}>
+    <Layout currentPage={currentPage} onNavigate={(page) => handleNavigate(page)}>
       {renderContent()}
     </Layout>
   );

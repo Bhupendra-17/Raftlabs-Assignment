@@ -1,12 +1,21 @@
 import React from 'react';
-import { ArrowRight, Sparkles, Zap, Shield, Search } from 'lucide-react';
+import { ArrowRight, Sparkles, Zap, Shield, Search, Code2, Image, Type, Video, Music, Briefcase, LayoutGrid } from 'lucide-react';
 import { Page } from '../types';
 
 interface HomePageProps {
-  onNavigate: (page: Page) => void;
+  onNavigate: (page: Page, category?: string) => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
+  const categories = [
+    { name: 'Image Gen', icon: Image, color: 'text-pink-500', bg: 'bg-pink-500/10', description: 'Create stunning visuals from text prompts.' },
+    { name: 'Text Gen', icon: Type, color: 'text-blue-500', bg: 'bg-blue-500/10', description: 'Copywriting, storytelling, and summarization.' },
+    { name: 'Coding', icon: Code2, color: 'text-green-500', bg: 'bg-green-500/10', description: 'Code assistants, debuggers, and refactoring tools.' },
+    { name: 'Video', icon: Video, color: 'text-purple-500', bg: 'bg-purple-500/10', description: 'Generate and edit videos automatically.' },
+    { name: 'Audio', icon: Music, color: 'text-orange-500', bg: 'bg-orange-500/10', description: 'Music composition, voiceovers, and TTS.' },
+    { name: 'Productivity', icon: Briefcase, color: 'text-teal-500', bg: 'bg-teal-500/10', description: 'Boost efficiency with smart automation.' },
+  ];
+
   return (
     <div className="flex flex-col items-center">
       {/* Hero Section */}
@@ -37,8 +46,36 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
+      {/* Categories Section */}
+      <section className="w-full py-16 px-4 container mx-auto">
+         <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tight mb-4">Browse by Category</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">Find the specific tools you need for your creative or technical workflow.</p>
+         </div>
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {categories.map((cat) => (
+              <button 
+                key={cat.name}
+                onClick={() => onNavigate('tools', cat.name)}
+                className="group flex flex-col items-start p-6 rounded-2xl border bg-card text-card-foreground shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300 text-left"
+              >
+                <div className={`p-3 rounded-xl mb-4 ${cat.bg} ${cat.color} group-hover:scale-110 transition-transform duration-300`}>
+                  <cat.icon size={24} />
+                </div>
+                <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{cat.name}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                  {cat.description}
+                </p>
+                <div className="mt-auto flex items-center text-sm font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  View Tools <ArrowRight size={14} className="ml-1" />
+                </div>
+              </button>
+            ))}
+         </div>
+      </section>
+
       {/* Features Section */}
-      <section className="w-full py-20 px-4 container mx-auto">
+      <section className="w-full py-20 px-4 container mx-auto border-t bg-muted/20">
          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="group flex flex-col items-center text-center p-8 rounded-2xl border bg-card text-card-foreground shadow-sm hover:shadow-xl transition-all duration-300">
                 <div className="p-4 bg-primary/10 rounded-full mb-6 text-primary group-hover:scale-110 transition-transform">
